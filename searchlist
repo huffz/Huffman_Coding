@@ -17,7 +17,7 @@ Node* createLinkedList(){
 	return NULL;
 }
 
-Node* insertNode(Node *node, int item){ //insercao na head
+Node* insertNode(Node *node, long long int item){ //insercao na head
 	Node* new = (Node*) malloc(sizeof(Node));
 	new->item = item;
 	new->next = node;
@@ -35,7 +35,7 @@ void printLinkedList(Node *first){
 	//return NULL;
 }
 
-Node* search(Node* first, int item){
+Node* search(Node* first, long long int item){
 	while(first != NULL){
 		if(first->item == item){
 			//printf("It is here!\n");
@@ -49,7 +49,7 @@ Node* search(Node* first, int item){
 	return NULL;
 }
 
-Node* removenode(Node* first, int item){
+Node* removenode(Node* first, long long int item){
 	Node *previous = NULL;
 	Node *current = first;
 	while(current != NULL && current->item != item){
@@ -91,7 +91,7 @@ int main(){
 	while(scanf("%lld", &n) != EOF)//le a entrada
 	{
 		list = insertNode(list, n);
-		search(list,35);//busca semore ele
+		search(list,n);//busca sempre n
 		size++;//apos n ser adicionado o num de nodes da list aumenta
 		printf("%lld %lld\n",size, comparisons);//imprime no inputabb.txt o tamanho da entrada e o num de comparisons
 		comparisons=0;
