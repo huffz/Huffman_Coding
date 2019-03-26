@@ -37,6 +37,7 @@ void put_tree(node *bt,FILE* output)
     put_tree(bt->right,output);
   }
 }
+
 void compress(FILE *input, hash_tree *hash, node *tree)
 {
   int i, j;
@@ -46,7 +47,7 @@ void compress(FILE *input, hash_tree *hash, node *tree)
   
   FILE *output = fopen("compactado.huff", "w+b");
   
-  fseek(output, 2 + (tamanhotree), SEEK_SET);
+  fseek(output, 2 + (tamanhotree), SEEK_SET); //from begin
    
   unsigned char c = 0;
   unsigned char aux = 0;
@@ -55,7 +56,7 @@ void compress(FILE *input, hash_tree *hash, node *tree)
 
   while(fscanf(input,"%c",&c) != EOF)
   {
-    for(i = 0; i < ((element *)hash->trees[c])->tamanho; i++)
+    for(i = 0; i < ((element *)hash->trees[c])->tamanho; i++)//comeca a imprimir no arquivo os caminhos em binario
     {   
       if(((element *)hash->trees[c])->path_numofbits[i] == 1)
       {
@@ -69,7 +70,7 @@ void compress(FILE *input, hash_tree *hash, node *tree)
         index = 7;
       }
     }
-    //load
+    //load(da parte visual, barra de carregamento)
     if(chager%9999 == 0 && chager <= 9999*75)
       {  
         printf("%c", 219);
@@ -77,28 +78,32 @@ void compress(FILE *input, hash_tree *hash, node *tree)
     chager += 1;
   }
   puts(" 100%%\n");
+  //finish load
   unsigned short trash = index + 1;
-  fputc(aux, output);
+  if(trash > 0){
+    fputc(aux, output);
+  }
 
 
 //_______________
-  unsigned short aux2 = trash;
-  aux2 <<= 13;
-  aux2 += tamanhotree;
+  unsigned short header = trash;
+  header <<= 13; //move trash to the begin
+  header += tamanhotree;
 
   unsigned char byte_1 = 0;
   unsigned char byte_2 = 0;
 
   for(i = 15; i >= 8; i--)
   {
-    if(is_bit_i_set_short(aux2,i))
+    if(is_bit_i_set_short(header,i))
     {    
       byte_1 = set_bit(byte_1, i-8);
     }
   }
+
   for(i = 7; i >= 0; i--)
   {
-    if(is_bit_i_set(aux2,i))
+    if(is_bit_i_set(header,i))
     {
       byte_2 = set_bit(byte_2,i);
     }

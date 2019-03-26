@@ -81,7 +81,6 @@ void start_compress()
 	scanf("%[^\n]s", arq_name);
 
 	FILE *input = fopen(arq_name, "rb");
-	//verify
 	if(input == NULL)
 	{
 		puts("Arquivo invalido, tente novamente");
@@ -98,7 +97,6 @@ void start_compress()
 	int arr[MAX] = {0}; // array de salvar as frequencias
 	FrequencyEnqueue(input, arr, &head); 
 	makeHuffmanTree(&head);	
-	//print_lista(head);
 
 	printf("\n\n\n Criando arvore huffman...\n\n\n ");
 	printf("\n\n\n Criando Hash de mapeamento...\n\n\n ");
@@ -111,12 +109,13 @@ void start_compress()
     printf("\n\n\n Iniciando compressao...\n\n\n ");
 	sleep(1);
 
-	rewind(input);
+	rewind(input);//volta pro comeco
 	compress(input, hash, head);
 
 	freeall(head, stacktree);
 	eraseHash(hash);
 	
+	//VISUAL
 	puts(" Saindo do programa em 5 segundos");
 	sleep(5);
 	point_output(3);
@@ -133,6 +132,7 @@ int power(int base, int expo)
         return 1 / power(base, -expo);
 }
 void decompress(){
+
 	invalido:
 	system("clear");
 	char arq_name[300];
@@ -141,11 +141,14 @@ void decompress(){
 	getchar();
 	printf("Digite o nome do arquivo.huff : \n\n ");
 	scanf("%[^\n]s", arq_name);
+
 	FILE *output = fopen(arq_name, "r+b");
+	
 	printf(" Digite o formato de saida (ex: mp3) : \n\n ");
 	getchar();
 	scanf("%[^\n]s", formato);
 	sleep(2);
+
 	h_tree *tree = NULL;
 	if(output == NULL)
 	{
@@ -154,7 +157,6 @@ void decompress(){
 
 		goto invalido;
 	}
-	rewind(output);
 	
 	fseek(output, -1, SEEK_END);
 	unsigned char aux_bit = 0;
@@ -164,7 +166,7 @@ void decompress(){
 	rewind(output);
 	
 	unsigned char trash_size = 0;
-	unsigned short tree_size = 0;///trocou de short pra char
+	unsigned short tree_size = 0;
 	unsigned char c;
 
 	c = fgetc(output);
@@ -208,10 +210,9 @@ void decompress(){
 	sleep(1);
 	
 	long long int chager = 0; //carregamento
-
 	while(fscanf(output,"%c",&c) != EOF)
 	{
-		if(ftell(output)>=(bytes_arq))
+		if(ftell(output)>=(bytes_arq) && trash_size > 0)
 		{
 			break;
 		}
@@ -219,16 +220,16 @@ void decompress(){
 		{
            if(is_bit_i_set(c,j))
            {
-           	tree=tree->right;
+           		tree=tree->right;
            }
            else
            {
-           	tree=tree->left;
+           		tree=tree->left;
            }
            if(tree->right == NULL && tree->left==NULL)
 		   {  
-			fputc(tree->c,novoarquivo);
-			tree = raiz;
+				fputc(tree->c,novoarquivo);
+			 	tree = raiz;
 		   }
 		}
 		if(chager%9999 == 0 && chager <= 9999*75)

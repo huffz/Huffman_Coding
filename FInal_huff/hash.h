@@ -64,7 +64,9 @@ void build_hash(node *hufftree, hash_tree *hashtree, stack *stacktree) // compre
 {
 	if(hufftree == NULL)
 	{	
-		return;		
+		pop(stacktree);//
+		return;	//SE A TREE TIVER VAZIA, HUFF->LEFT E HUFF->RIGHT TBM SERIAM NULL E NAO FARIA SENTIDO 
+		//CHAMAR PUT ON HASH. VEJA ABAIXO
 	} 
 
 	else if(hufftree->left == NULL && hufftree->right == NULL) // folha

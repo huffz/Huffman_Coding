@@ -18,16 +18,16 @@ void FrequencyEnqueue(FILE *p, int *arr, node **head);
 
 node *create_node(unsigned char data, int freq, node* left, node* right)
 {
-	node *new = (node *) malloc(sizeof(node));
-	new->f = freq;
-	new->c = data;
-	new->next = NULL;
-	new->left = left;
-	new->right = right;
-	return new;
+	node *novo = (node *) malloc(sizeof(node));
+	novo->f = freq;
+	novo->c = data;
+	novo->next = NULL;
+	novo->left = left;
+	novo->right = right;
+	return novo;
 }
 
-node *add(node *head, unsigned char c, int f, node *l, node *r)
+node *add(node *head, unsigned char c, int f, node *l, node *r)//compress
 {
 	node *novo = create_node(c, f, l, r);
 	if(head != NULL)
@@ -84,7 +84,7 @@ h_tree *create_t_node(unsigned char c, h_tree* left, h_tree* right)
 	return novo;
 }
 
-node *make_tree_from_list(node *head) //comprimir
+node *make_tree_from_list(node *head) //compress
 {
 	node *aux1, *aux2;
 
@@ -146,7 +146,7 @@ void makeHuffmanTree(node **head) // compress
 void FrequencyEnqueue(FILE *p, int *arr, node **head) // compress
 {
 	int i;
-	unsigned char c; // caractere para receber o conteudo.
+	unsigned char c; 
 
 	while(fscanf(p, "%c", &c) != EOF)
 	{
@@ -156,7 +156,7 @@ void FrequencyEnqueue(FILE *p, int *arr, node **head) // compress
 	{
 		if(arr[i] != 0) // existe o caractere
 		{
-			*head = add(*head, i, arr[i], NULL, NULL); // add na fila de prioridade
+			*head = add(*head, i, arr[i], NULL, NULL); //ordem crescente
 		}
 	}
 }
