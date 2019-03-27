@@ -14,7 +14,7 @@ void teste_eraseHash()
 {
 	hash_tree *new = create_hash();
 	CU_ASSERT(new != NULL);
-	new->trees[0]->key = 1;
+	((element *)new->trees[0]->key) = 1;
 	CU_ASSERT(((element *)new->trees[0])] != NULL);
 	eraseHash(new);
 	CU_ASSERT(((element *)new->trees[0]) == NULL);
